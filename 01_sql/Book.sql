@@ -47,6 +47,8 @@ CREATE TABLE BOOK
 , CONSTRAINT PK_BOOK PRIMARY KEY(BOOK_SEQ)
 , CONSTRAINT U_BOOK_ISBN UNIQUE(ISBN)
 );
+
+
 INSERT INTO BOOK (BOOK_SEQ, ISBN, TITLE, AUTHOR, CONTENT, COMPANY_CD, TOTAL_PAGE, PRICE, QUANTITY, REG_ID)
 VALUES (SEQ_BOOK.NEXTVAL, '9788936433598', '채식주의자', '한강', '맨부커 상을 받은 한강의 소설', 1001, 247, 10800, 5, 0);
 INSERT INTO BOOK (BOOK_SEQ, ISBN, TITLE, AUTHOR, CONTENT, COMPANY_CD, TOTAL_PAGE, PRICE, QUANTITY, REG_ID)
@@ -78,8 +80,145 @@ VALUES (SEQ_BOOK.NEXTVAL, '9788956056609', '다시, 책은 도끼다', '박웅�
 정답이라고 주장할 수 있는 독법은 없으나, ‘이 사람의 것’이라면 믿을 만하다고 여겨지는 독법은 있다. 바로, 베스트셀러 《책은 도끼다》의 저자 박웅현의 독법이 그러하다. 그런 그가 《책은 도끼다》 이후 5년 만에 자신의 이름을 내걸은 인문학 강독회로 돌아왔다. 모두가 후속작이 나오기만을 기다려왔던 책, 그래서 제목도 『다시, 책은 도끼다』이다.', 1005, 349, 14400, 2, 0);
 
 COMMIT;
+-----------------------------------------------------------------------------------------------------------------
+-- book 테이블의 기본 쿼리들 작성
+-- 1. 1건 조회
+SELECT b.book_seq
+	 , b.isbn
+	 , b.title
+	 , b.author
+	 , b.content
+	 , b.company_cd
+	 , b.company_nm
+	 , b.totalpage
+	 , b.price
+	 , b.quantity
+	 , b.reg_id
+	 , b.reg_date
+	 , b.mod_id
+	 , b.mod_date
+  FROM v_book b
+ WHERE b.book_seq = 1
+;
 
+-- 2. 전체 조회
+-- (1) 출판사 코드로 조회
+SELECT b.book_seq
+	 , b.isbn
+	 , b.title
+	 , b.author
+	 , b.content
+	 , b.company_cd
+	 , b.company_nm
+	 , b.totalpage
+	 , b.price
+	 , b.quantity
+	 , b.reg_id
+	 , b.reg_date
+	 , b.mod_id
+	 , b.mod_date
+  FROM v_book b
+ WHERE b.company_cd = 11
+;
+-- (2) 일정 가격 이상인 도서 조회
+SELECT b.book_seq
+	 , b.isbn
+	 , b.title
+	 , b.author
+	 , b.content
+	 , b.company_cd
+	 , b.company_nm
+	 , b.totalpage
+	 , b.price
+	 , b.quantity
+	 , b.reg_id
+	 , b.reg_date
+	 , b.mod_id
+	 , b.mod_date
+  FROM v_book b
+ WHERE b.price >= 10000
+;
+-- (3) 가격 범위 도서 조회
+SELECT b.book_seq
+	 , b.isbn
+	 , b.title
+	 , b.author
+	 , b.content
+	 , b.company_cd
+	 , b.company_nm
+	 , b.totalpage
+	 , b.price
+	 , b.quantity
+	 , b.reg_id
+	 , b.reg_date
+	 , b.mod_id
+	 , b.mod_date
+  FROM v_book b
+ WHERE b.price BETWEEN 10000 AND 15000
+;
+-- (4) 일정 가격 이하인 도서 조회
+SELECT b.book_seq
+	 , b.isbn
+	 , b.title
+	 , b.author
+	 , b.content
+	 , b.company_cd
+	 , b.company_nm
+	 , b.totalpage
+	 , b.price
+	 , b.quantity
+	 , b.reg_id
+	 , b.reg_date
+	 , b.mod_id
+	 , b.mod_date
+  FROM v_book b
+ WHERE b.price <= 15000
+;
+-- (5) 제목, 저자, 출판사 조건 종합 조회
+SELECT b.book_seq
+	 , b.isbn
+	 , b.title
+	 , b.author
+	 , b.content
+	 , b.company_cd 
+	 , b.company_nm
+	 , b.totalpage
+	 , b.price
+	 , b.quantity
+	 , b.reg_id
+	 , b.reg_date
+	 , b.mod_id
+	 , b.mod_date
+  FROM v_book b
+ WHERE b.title LIKE '%다%'
+    OR b.author LIKE '%다%'
+	OR b.content LIKE '%다%'
+	OR b.company_nm LIKE '%다%'
+;
 
+SELECT b.book_seq
+	 , b.isbn
+	 , b.title
+	 , b.author
+	 , b.content
+	 , b.company_cd
+	 , b.company_nm
+	 , b.totalpage
+	 , b.price
+	 , b.quantity
+	 , b.reg_id
+	 , b.reg_date
+	 , b.mod_id
+	 , b.mod_date
+  FROM v_book b
+;
+
+-- 3. 1건 입력
+
+-- 4. 1건 수정
+
+-- 5. 1건 삭제
+------------------------------------------------------------------------------------------------
 DROP TABLE MANAGER;
 CREATE TABLE MANAGER
 ( MANAGER_SEQ	NUMBER
@@ -154,4 +293,27 @@ NOCYCLE
 INCREMENT BY 1
 ;
 
-INSERT INTO
+/* --------------------------------------
+	출판사 명이 같이 보이는 뷰를 작성
+	-------------------------------------
+*/
+
+CREATE OR REPLACE VIEW v_book 
+AS
+SELECT b.book_seq
+	 , b.isbn
+	 , b.title
+	 , b.author
+	 , b.content
+	 , b.company_cd company_nm
+	 , c.code_val
+	 , b.totalpage
+	 , b.price
+	 , b.quantity
+	 , b.reg_id
+	 , b.reg_date
+	 , b.mod_id
+	 , b.mod_date
+  FROM BOOK b JOIN CODE c ON b.company_cd = c.code
+WITH READ ONLY
+);
