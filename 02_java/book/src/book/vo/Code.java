@@ -1,20 +1,18 @@
 package book.vo;
 
-import java.math.BigInteger;
-
 /**
  * CODE 테이블과 동일한 형태의 vo 클래스
  * @author 601-
  *
  */
 public class Code {
-	private BigInteger code;
-	private BigInteger pCode;
+	private int code;
+	private int pCode;
 	private String codeNm;
 	private String codeVal;
 	private char useYn;
 	private String codeDesc;
-	private BigInteger sortOrder;
+	private int sortOrder;
 	private String regId;
 	private String regDate;
 	private String modId;
@@ -24,19 +22,19 @@ public class Code {
 		super();
 	}
 
-	public BigInteger getCode() {
+	public int getCode() {
 		return code;
 	}
 
-	public void setCode(BigInteger code) {
+	public void setCode(int code) {
 		this.code = code;
 	}
 
-	public BigInteger getpCode() {
+	public int getpCode() {
 		return pCode;
 	}
 
-	public void setpCode(BigInteger pCode) {
+	public void setpCode(int pCode) {
 		this.pCode = pCode;
 	}
 
@@ -72,11 +70,11 @@ public class Code {
 		this.codeDesc = codeDesc;
 	}
 
-	public BigInteger getSortOrder() {
+	public int getSortOrder() {
 		return sortOrder;
 	}
 
-	public void setSortOrder(BigInteger sortOrder) {
+	public void setSortOrder(int sortOrder) {
 		this.sortOrder = sortOrder;
 	}
 
@@ -112,11 +110,12 @@ public class Code {
 		this.modDate = modDate;
 	}
 
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((code == null) ? 0 : code.hashCode());
+		result = prime * result + code;
 		return result;
 	}
 
@@ -129,10 +128,7 @@ public class Code {
 		if (getClass() != obj.getClass())
 			return false;
 		Code other = (Code) obj;
-		if (code == null) {
-			if (other.code != null)
-				return false;
-		} else if (!code.equals(other.code))
+		if (code != other.code)
 			return false;
 		return true;
 	}

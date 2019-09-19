@@ -1,6 +1,6 @@
 package book.vo;
 
-import java.math.BigInteger;
+import java.math.BigDecimal;
 
 /**
  * Book 테이블의 형태와 동일한 vo 클래스
@@ -8,14 +8,35 @@ import java.math.BigInteger;
  *
  */
 public class Book {
-	private BigInteger bookSeq;
+	private int bookSeq;
 	private String isbn;
 	private String title;
 	private String author;
 	private String content;
-	private BigInteger companyCd;
+	private int companyCd;
 	private String companyNm;
-	private BigInteger price;
+	private int price;
+	private int quantity;
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
+	public void setBookSeq(int bookSeq) {
+		this.bookSeq = bookSeq;
+	}
+
+	public void setCompanyCd(int companyCd) {
+		this.companyCd = companyCd;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
+	}
+
 	private String regId;
 	private String regDate; 
 	private String modId;
@@ -26,22 +47,9 @@ public class Book {
 		super();
 	}
 
-	public String getCompanyNm() {
-		return companyNm;
-	}
+	
 
-	public void setCompanyNm(String companyNm) {
-		this.companyNm = companyNm;
-	}
-
-
-	public BigInteger getBookSeq() {
-		return bookSeq;
-	}
-
-	public void setBookSeq(BigInteger bookSeq) {
-		this.bookSeq = bookSeq;
-	}
+	
 
 	public String getIsbn() {
 		return isbn;
@@ -75,20 +83,12 @@ public class Book {
 		this.content = content;
 	}
 
-	public BigInteger getCompanyCd() {
-		return companyCd;
+	public String getCompanyNm() {
+		return companyNm;
 	}
 
-	public void setCompanyCd(BigInteger companyCd) {
-		this.companyCd = companyCd;
-	}
-
-	public BigInteger getPrice() {
-		return price;
-	}
-
-	public void setPrice(BigInteger price) {
-		this.price = price;
+	public void setCompanyNm(String companyNm) {
+		this.companyNm = companyNm;
 	}
 
 	public String getRegId() {
@@ -123,11 +123,23 @@ public class Book {
 		this.modDate = modDate;
 	}
 
+	public int getBookSeq() {
+		return bookSeq;
+	}
+
+	public int getCompanyCd() {
+		return companyCd;
+	}
+
+	public int getPrice() {
+		return price;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((bookSeq == null) ? 0 : bookSeq.hashCode());
+		result = prime * result + bookSeq;
 		return result;
 	}
 
@@ -140,19 +152,17 @@ public class Book {
 		if (getClass() != obj.getClass())
 			return false;
 		Book other = (Book) obj;
-		if (bookSeq == null) {
-			if (other.bookSeq != null)
-				return false;
-		} else if (!bookSeq.equals(other.bookSeq))
+		if (bookSeq != other.bookSeq)
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Book [책 일련번호=" + bookSeq + ", isbn=" + isbn + ", 책 제목=" + title + ", 작가=" + author + ", 부가설명="
-				+ content + ", 출판사 코드=" + companyCd + ", companyNm=" + companyNm + ", price=" + price + ", regId="
-				+ regId + ", regDate=" + regDate + ", modId=" + modId + ", modDate=" + modDate + "]";
+		return "Book [bookSeq=" + bookSeq + ", isbn=" + isbn + ", title=" + title + ", author=" + author + ", content="
+				+ content + ", companyCd=" + companyCd + ", companyNm=" + companyNm + ", price=" + price + ", quantity="
+				+ quantity + ", regId=" + regId + ", regDate=" + regDate + ", modId=" + modId + ", modDate=" + modDate
+				+ "]";
 	}
 	
 	

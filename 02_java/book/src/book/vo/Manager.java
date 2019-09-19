@@ -5,11 +5,9 @@ package book.vo;
  *
  */
 
-import java.math.BigInteger;
-
 public class Manager {
 	
-	private BigInteger managerSeq;
+	private int managerSeq;
 	private String managerId;
 	private String name;
 	private String password;
@@ -22,36 +20,13 @@ public class Manager {
 		super();
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((managerSeq == null) ? 0 : managerSeq.hashCode());
-		return result;
-	}
+	
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Manager other = (Manager) obj;
-		if (managerSeq == null) {
-			if (other.managerSeq != null)
-				return false;
-		} else if (!managerSeq.equals(other.managerSeq))
-			return false;
-		return true;
-	}
-
-	public BigInteger getManagerSeq() {
+	public int getManagerSeq() {
 		return managerSeq;
 	}
 
-	public void setManagerSeq(BigInteger managerSeq) {
+	public void setManagerSeq(int managerSeq) {
 		this.managerSeq = managerSeq;
 	}
 
@@ -116,6 +91,32 @@ public class Manager {
 		return "Manager [매니저일련번호=" + managerSeq + ", 매니저아이디=" + managerId + ", 매니저이름=" + name + ", 패스워드="
 				+ password + ", 등록자아이디=" + regId + ", 등록날짜=" + regDate + ", 수정자아이디=" + modId + ", 수정날짜=" + modDate
 				+ "]";
+	}
+
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + managerSeq;
+		return result;
+	}
+
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Manager other = (Manager) obj;
+		if (managerSeq != other.managerSeq)
+			return false;
+		return true;
 	}
 	
 	
