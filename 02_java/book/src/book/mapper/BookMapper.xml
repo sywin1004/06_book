@@ -3,4 +3,91 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-<mapper namespace="book.mapper.BookMapper"></mapper>
+<mapper namespace="book.mapper.BookMapper"> 
+	<!-- 1건 조회 혹은 전체목록 조회 쿼리 -->
+	<select id="select" parameterType="Book" resultType="Book">
+		SELECT b.book_seq
+			 , b.isbn
+			 , b.title
+			 , b.author
+			 , b.content
+			 , b.company_cd
+			 , b.company_nm
+			 , b.totalpage
+			 , b.price
+			 , b.quantity
+			 , b.reg_id
+			 , b.reg_date
+			 , b.mod_id
+			 , b.mod_date
+		  FROM v_book b
+		  <if test="bookSeq != null">
+		 WHERE b.book_seq = #{bookSeq}
+		  </if>
+	</select>
+	
+	<!-- 출판사 코드로 도서 검색 -->
+	<select id="searchByCompantCd" parameterType="Code" resultType="Book">
+		SELECT b.book_seq
+			 , b.isbn
+			 , b.title
+			 , b.author
+			 , b.content
+			 , b.company_cd
+			 , b.company_nm
+			 , b.totalpage
+			 , b.price
+			 , b.quantity
+			 , b.reg_id
+			 , b.reg_date
+			 , b.mod_id
+			 , b.mod_date
+		  FROM v_book b
+		 WHERE b.company_cd = ${code}
+	</select>
+	
+	<!-- 일정 가격 이하 도서 검색 -->
+	<select id="searchByBelowPrice" parameterType="int" resultType="Book">
+		SELECT b.book_seq
+			 , b.isbn
+			 , b.title
+			 , b.author
+			 , b.content
+			 , b.company_cd
+			 , b.company_nm
+			 , b.totalpage
+			 , b.price
+			 , b.quantity
+			 , b.reg_id
+			 , b.reg_date
+			 , b.mod_id
+			 , b.mod_date
+		  FROM v_book b
+		 WHERE b.price >= #{value}
+	</select>
+	
+	<!-- 가격 범위 도서 검색 -->
+	<select id="searchByPrice" parameterType="map" resultType="Book">
+		SELECT b.book_seq
+			 , b.isbn
+			 , b.title
+			 , b.author
+			 , b.content
+			 , b.company_cd
+			 , b.company_nm
+			 , b.totalpage
+			 , b.price
+			 , b.quantity
+			 , b.reg_id
+			 , b.reg_date
+			 , b.mod_id
+			 , b.mod_date
+		  FROM v_book b
+		 WHERE b.price BETWEEN #{min} AND #{max}
+	</select>
+	
+	<delete id="delete" parameterType="Code">
+		DELETE BOOK b
+ 		 WHERE b.BOOK_SEQ = #{value}
+	</delete>
+</mapper>

@@ -14,15 +14,26 @@ public class Book {
 	private String author;
 	private String content;
 	private BigInteger companyCd;
+	private String companyNm;
 	private BigInteger price;
 	private String regId;
 	private String regDate; 
 	private String modId;
 	private String modDate;
 	
+	
 	public Book() {
 		super();
 	}
+
+	public String getCompanyNm() {
+		return companyNm;
+	}
+
+	public void setCompanyNm(String companyNm) {
+		this.companyNm = companyNm;
+	}
+
 
 	public BigInteger getBookSeq() {
 		return bookSeq;
@@ -139,9 +150,9 @@ public class Book {
 
 	@Override
 	public String toString() {
-		return "Book [책일련번호=" + bookSeq + ", isbn=" + isbn + ", 제목=" + title + ", 작가=" + author + ", 부가설명="
-				+ content + ", 출판사코드=" + companyCd + ", 가격=" + price + ", 등록자아이디=" + regId + ", 등록날짜="
-				+ regDate + ", 수정자아이디=" + modId + ", 수정날짜=" + modDate + "]";
+		return "Book [책 일련번호=" + bookSeq + ", isbn=" + isbn + ", 책 제목=" + title + ", 작가=" + author + ", 부가설명="
+				+ content + ", 출판사 코드=" + companyCd + ", companyNm=" + companyNm + ", price=" + price + ", regId="
+				+ regId + ", regDate=" + regDate + ", modId=" + modId + ", modDate=" + modDate + "]";
 	}
 	
 	

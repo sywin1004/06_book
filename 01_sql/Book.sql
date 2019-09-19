@@ -1,4 +1,4 @@
---Book sample project 
+﻿--Book sample project 
 
 /*
 	테이블 : BOOK											 | 테이블 : MANAGER
@@ -214,10 +214,33 @@ SELECT b.book_seq
 ;
 
 -- 3. 1건 입력
+INSERT INTO BOOK (BOOK_SEQ, ISBN, TITLE, AUTHOR, CONTENT, COMPANY_CD, TOTAL_PAGE, PRICE, QUANTITY, REG_ID)
+VALUES (SEQ_BOOK.NEXTVAL, '9788936433598', '채식주의자', '한강', '맨부커 상을 받은 한강의 소설', 1001, 247, 10800, 5, 0);
 
 -- 4. 1건 수정
+UPDATE BOOK b
+   SET b.isbn = ''
+     , b.title = '채식주의자*수정'
+	 , b.author = ''
+	 , b.content = ''
+	 , b.company_cd = ''
+	 , b.company_nm = ''
+	 , b.totalpage = ''
+	 , b.price = ''
+	 , b.quantity = ''
+	 , mod_id = ''
+	 , mod_date = sysdate
+ WHERE b.BOOK_SEQ = 1
+;
+ROLLBACK;
 
 -- 5. 1건 삭제
+DELETE BOOK b
+ WHERE b.BOOK_SEQ = 1
+;
+ROLLBACK;
+INSERT INTO BOOK (BOOK_SEQ, ISBN, TITLE, AUTHOR, CONTENT, COMPANY_CD, TOTAL_PAGE, PRICE, QUANTITY, REG_ID)
+VALUES (SEQ_BOOK.NEXTVAL, '9788936433598', '채식주의자', '한강', '맨부커 상을 받은 한강의 소설', 1001, 247, 10800, 5, 0);
 ------------------------------------------------------------------------------------------------
 DROP TABLE MANAGER;
 CREATE TABLE MANAGER
@@ -255,7 +278,6 @@ CREATE TABLE CODE
 , MOD_ID		VARCHAR2(10)
 , MOD_DATE		DATE
 , CONSTRAINT PK_CODE PRIMARY KEY(CODE)
-, CONSTRAINT U_P_CODE UNIQUE(P_CODE)
 );
 
 /* -----------------------------------------------------
@@ -317,3 +339,4 @@ SELECT b.book_seq
   FROM BOOK b JOIN CODE c ON b.company_cd = c.code
 WITH READ ONLY
 );
+
