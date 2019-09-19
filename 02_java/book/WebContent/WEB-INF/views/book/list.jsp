@@ -32,7 +32,7 @@
 	<c:forEach var="book" items="${requestScope.books}">
 		<tr>
 			<td>${book.bookSeq}</td>
-			<td>${book.title}</td>
+			<td><a href="${contextPath}/main?action=detail&bookSeq=${book.bookSeq}">${book.title}</a></td>
 			<td>${book.author}</td>
 			<td><fmt:formatNumber value="${book.price}" type="number"></fmt:formatNumber></td>
 			<td>&nbsp;</td>
