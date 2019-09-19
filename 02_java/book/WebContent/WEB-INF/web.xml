@@ -38,6 +38,15 @@
   	<url-pattern>/footer</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+  	<servlet-name>bookListJsp</servlet-name>
+  	<jsp-file>/WEB-INF/views/book/list.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>bookListJsp</servlet-name>
+  	<url-pattern>/listBook</url-pattern>
+  </servlet-mapping>
+  
   
   
   

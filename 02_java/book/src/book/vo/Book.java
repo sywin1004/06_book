@@ -15,8 +15,17 @@ public class Book {
 	private String content;
 	private int companyCd;
 	private String companyNm;
+	private String totalPage;
 	private int price;
 	private int quantity;
+	public String getTotalPage() {
+		return totalPage;
+	}
+
+	public void setTotalPage(String totalPage) {
+		this.totalPage = totalPage;
+	}
+
 	public int getQuantity() {
 		return quantity;
 	}
@@ -160,9 +169,9 @@ public class Book {
 	@Override
 	public String toString() {
 		return "Book [bookSeq=" + bookSeq + ", isbn=" + isbn + ", title=" + title + ", author=" + author + ", content="
-				+ content + ", companyCd=" + companyCd + ", companyNm=" + companyNm + ", price=" + price + ", quantity="
-				+ quantity + ", regId=" + regId + ", regDate=" + regDate + ", modId=" + modId + ", modDate=" + modDate
-				+ "]";
+				+ content + ", companyCd=" + companyCd + ", companyNm=" + companyNm + ", totalPage=" + totalPage
+				+ ", price=" + price + ", quantity=" + quantity + ", regId=" + regId + ", regDate=" + regDate
+				+ ", modId=" + modId + ", modDate=" + modDate + "]";
 	}
 	
 	
