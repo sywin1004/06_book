@@ -26,5 +26,5 @@ public interface BookMapper {
 		
 		int delete(Book book);
 		
-		int isExists(Book book);
+		Integer isExists(Book book);
 }

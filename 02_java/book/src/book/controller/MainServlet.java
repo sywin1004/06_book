@@ -1,7 +1,9 @@
 package book.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import book.dao.BookDaoIf;
 import book.dao.BookDaoImpl;
+import book.exception.NotFoundException;
 import book.vo.Book;
 
 /**
@@ -41,9 +44,48 @@ public class MainServlet extends HttpServlet {
 			detail(request, response);
 		} else if ("update".equals(action)) {
 			update(request,response);
+		} else if ("delete".equals(action)) {
+			delete(request, response);
 		}
 	}
 	
+	private void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// 1. 삭제할 도서 bookSeq 파라미터 추출
+		int bookSeq = Integer.valueOf(request.getParameter("bookSeq"));
+		
+		// 2. dao 객체 얻기
+		BookDaoIf dao = new BookDaoImpl();
+		try {
+			Book book = new Book();
+			book.setBookSeq(bookSeq);
+			
+			// 3. dao 로 delete 쿼리 수행
+			dao.delete(book);
+			
+			// 4. 삭제 성공에 따른 화면 이동
+			// (1) 삭제 성공 화면 이동
+			// 삭제 성공 메시지 생성 & 요청에 추가
+			String message = String.format("도서 정보[일련번호%d] 삭제 성공 ", book.getBookSeq());
+			request.setAttribute("message", message);
+			
+			
+		} catch (NotFoundException e) {
+			// 삭제 실패 화면 이동
+			String message = e.getMessage();
+			request.setAttribute("message", message);
+		}
+
+		// 삭제 성공 메시지를 2초간 보여준 후 이동할 nextPage 속성 설정
+		String nextPage = "/main?action=select";
+		request.setAttribute("nextPage", nextPage);
+		// 메인 컨텐트 화면에 갈아끼울 content 속성 설정
+		String mainContent = "/messageBook";
+		request.setAttribute("content", mainContent);
+		// /index  로 화면 이동
+		String view = "/index";
+		request.getRequestDispatcher(view).forward(request, response);
+	}
+
 	/**
 	 * 도서 정보 1건을 수정하는 메소드
 	 * GET 으로 들어올 시 수정을 위한 화면 제공
@@ -86,6 +128,84 @@ public class MainServlet extends HttpServlet {
 			
 		} else if ("POST".equals(method)) {
 			// 3. POST 로 진입한 경우 수정된 내용을 DB 에 반영
+			// (1) 요청 파라미터 추출
+			int bookSeq = Integer.valueOf(request.getParameter("bookSeq"));
+			String isbn = request.getParameter("isbn");
+			String title = request.getParameter("title");
+			String author = request.getParameter("author");
+			String content = request.getParameter("content");
+			int companyCd = Integer.valueOf(request.getParameter("companyCd"));
+			int totalPage= Integer.valueOf(request.getParameter("totalPage"));
+			int price = Integer.valueOf(request.getParameter("price"));
+			int quantity = Integer.valueOf(request.getParameter("quantity"));
+			String modId = "1";
+			
+			// (2) 요청파라미터 맵 객체에 추가 + 로그인 된 아이디 추가
+			Map<String, Object> bookMap = new HashMap<>();
+			bookMap.put("bookSeq", bookSeq);
+			bookMap.put("isbn", isbn);
+			bookMap.put("title", title);
+			bookMap.put("author", author);
+			bookMap.put("content", content);
+			bookMap.put("companyCd", companyCd);
+			bookMap.put("totalPage", totalPage);
+			bookMap.put("price", price);
+			bookMap.put("quantity", quantity);
+			bookMap.put("modId", modId);			
+			
+			// (3) dao 객체 얻기
+			BookDaoIf dao = new BookDaoImpl();
+			// 필요한 메시지 객체 선언 : DML 작업은 ResultSet 이 발생하지 않으므로
+			// DML 작업 성공, 실패에 대한 메시지를 저장할 변수를 선언
+			String message = null;
+			
+			try {
+				// (4) update 쿼리 실행
+				dao.update(bookMap);
+				
+				// 수정 성공시 사용할 메시지 작성
+				message = String.format("도서정보[%d:%s] 수정 성공", bookSeq, title);
+				
+				// 수정 성공 메시지 요청 객체에 속성으로 추가
+				request.setAttribute("message", message);
+				
+				// 수정 성공시 상세 보기 화면으로 이동하기 위한 nexpPage 속성 추가
+				String nextPage = "main?action=detail&bookSeq=" + bookSeq;
+				request.setAttribute("nextPage", nextPage);
+				
+				// 메인 컨텐트 위치에 넣을 페이지 속성 추가
+				String mainContent = "/messageBook";
+				request.setAttribute("content", mainContent);
+				
+				// 화면 이동
+				String view = "/index";
+				request.getRequestDispatcher(view).forward(request, response);
+				
+			} catch (NotFoundException e) {
+				System.err.println(e.getMessage());
+				e.printStackTrace();
+				
+				// (6) 수정 실패에 대 한 화면 이동은 catch 절에서 구현
+				// 수정 실패시 메시지 작성
+				message = e.getMessage();
+				
+				// 수정 성공 메시지 요청 객체에 속성으로 추가
+				request.setAttribute("message", message);
+				
+				// 수정 실패 메시지 출력 후 이동할 nextPage 설정 : 목록으로 이동
+				String nextPage = "main?action=select";
+				request.setAttribute("nextPage", nextPage);
+				
+				// 화면 중앙 컨텐츠 부분에 메시지가 나타나도록 content 속성 추가
+				String mainContent = "/messageBook";
+				request.setAttribute("content", mainContent);
+				
+				// index 페이지로 이동
+				String view ="/index";
+				request.getRequestDispatcher(view).forward(request, response);
+			}
+			
+			// (5) 수정, 성공, 실패에 대한 적절한 화면 이동
 			
 		}
 		

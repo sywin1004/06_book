@@ -65,6 +65,15 @@
   	<url-pattern>/updateBook</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+  	<servlet-name>bookMessageJsp</servlet-name>
+  	<jsp-file>/WEB-INF/views/book/message.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>bookMessageJsp</servlet-name>
+  	<url-pattern>/messageBook</url-pattern>
+  </servlet-mapping>
+  
   
   
   

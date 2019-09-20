@@ -15,14 +15,20 @@ public class Book {
 	private String content;
 	private int companyCd;
 	private String companyNm;
-	private String totalPage;
+	private int totalPage;
 	private int price;
 	private int quantity;
-	public String getTotalPage() {
+	private String regId;
+	private String regDate; 
+	private String modId;
+	private String modDate;
+	
+
+	public int getTotalPage() {
 		return totalPage;
 	}
 
-	public void setTotalPage(String totalPage) {
+	public void setTotalPage(int totalPage) {
 		this.totalPage = totalPage;
 	}
 
@@ -46,11 +52,6 @@ public class Book {
 		this.price = price;
 	}
 
-	private String regId;
-	private String regDate; 
-	private String modId;
-	private String modDate;
-	
 	
 	public Book() {
 		super();
