@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,17 +37,21 @@
 		<tr>
 			<th>출판사</th>
 			<td>
+				<c:forEach var="codes" items="${codes}">
+					<input type="radio" name="companyCd" value="${code.code}" id="${code.code}" />
+					<label for="${code.code}">${code.codeVal}</label>
+				</c:forEach>
 <!-- 				(input[type="radio" name="companyCd" value="100$" id="100$"]+label[for="100$"]{출판사이름})*5 -->
-				<input type="radio" name="companyCd" value="1001" id="1001"  checked="checked"/>
-				<label for="1001">창비</label>
-				<input type="radio" name="companyCd" value="1002" id="1002" />
-				<label for="1002">더 스토리</label>
-				<input type="radio" name="companyCd" value="1003" id="1003" />
-				<label for="1003">위즈덤</label>
-				<input type="radio" name="companyCd" value="1004" id="1004" />
-				<label for="1004">흔</label>
-				<input type="radio" name="companyCd" value="1005" id="1005" />
-				<label for="1005">북하우스</label>
+<!-- 				<input type="radio" name="companyCd" value="1001" id="1001"  checked="checked"/> -->
+<!-- 				<label for="1001">창비</label> -->
+<!-- 				<input type="radio" name="companyCd" value="1002" id="1002" /> -->
+<!-- 				<label for="1002">더 스토리</label> -->
+<!-- 				<input type="radio" name="companyCd" value="1003" id="1003" /> -->
+<!-- 				<label for="1003">위즈덤</label> -->
+<!-- 				<input type="radio" name="companyCd" value="1004" id="1004" /> -->
+<!-- 				<label for="1004">흔</label> -->
+<!-- 				<input type="radio" name="companyCd" value="1005" id="1005" /> -->
+<!-- 				<label for="1005">북하우스</label> -->
 			</td>
 		</tr>
 		<tr>
