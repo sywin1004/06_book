@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.security.auth.message.callback.PrivateKeyCallback.Request;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -105,20 +106,35 @@ public class MainServlet extends HttpServlet {
 			BookDaoIf dao = new BookDaoImpl();
 			// 필요한 메시지 객체 선언 : DML 작업은 ResultSet 이 발생하지 않으므로
 			// DML 작업 성공, 실패에 대한 메시지를 저장할 변수를 선언
-			String message = null;
-			// (4) dao 로 insert 수행
+			
+			
 			try {
-				int addCnt = dao.insert(bookMap);
-				if (addCnt > 0) {
-					// 추가 성공
-				} else {
-					// 추가 실패
-				}
-				
+				// (4) dao 로 insert 수행
+				dao.insert(bookMap);
+								
+				// (5) 입력 성공, 실패 수행 결과 처리하여 화면 이동
+				// (5-1) 입력 성공에 대한 화면 이동
+				// 입력 성공 메세지 생성
+				String message = String.format("도서 정보 1건 [%s] 추가", title);
+								
 			} catch (Exception e) {
 				e.printStackTrace();
+				// (5-2) 입력 실패 수행 결과 처리하여 화면 이동
+				String message = e.getMessage();
+				request.setAttribute("message", message);
 			}
-			// (5) 입력 성공, 실패 수행 결과 처리하여 화면 이동
+			
+			// 입력 성공 메시지 처리 후 이동할 nextPage 속성 설정
+			String nextPage = "main?action=select";
+			request.setAttribute("nextPage", nextPage);
+			
+			// 메인 컨텐트 영역에 표시할 content 속성 설정
+			String mainContent = "/messageBook";
+			request.setAttribute("content", mainContent);
+			
+			//이동할 뷰 화면 설정
+			String view = "/index";
+			request.getRequestDispatcher(view).forward(request, response);
 		}
 		
 		
