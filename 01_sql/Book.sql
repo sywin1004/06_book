@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+﻿<<<<<<< HEAD
 ﻿--Book sample project 
 
 /*
@@ -717,7 +717,18 @@ WITH READ ONLY
 >>>>>>> branch 'master' of https://github.com/sywin1004/06_book.git
 
 --=============================================================
--- 관리자 로그인 쿼리
-SELECT m.manager_seq
+-- 관리자 로그인 쿼리 : 아이디 비번 일치 여부 판단
+SELECT m.manager_seq 
   FROM MANAGER m
+ WHERE m.manager_id = 'admin'
+   AND m.password = 'admin'
 ;
+-- =============================================================
+-- 코드 조회 쿼리
+SELECT c.code
+     , c.code_nm
+	 , c.code_val
+  FROM CODE c
+ WHERE c.p_code = 1000
+   AND c.use_yn = 'Y'
+ 

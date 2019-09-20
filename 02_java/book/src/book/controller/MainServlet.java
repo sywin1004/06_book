@@ -321,6 +321,9 @@ public class MainServlet extends HttpServlet {
 			
 			// (3) 조회된 Book 객체 요청에 추가
 			request.setAttribute("book", books.get(0));
+			CodeDaoIf dao = new CodeDaoImpl();
+			List<Code> codes = dao.selectCompanies();
+			request.setAttribute("codes", codes);
 			
 			// (4) 수정 가능한 화면으로 이동
 			String content = "/updateBook";
