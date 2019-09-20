@@ -715,3 +715,9 @@ SELECT b.book_seq
 WITH READ ONLY
 ;
 >>>>>>> branch 'master' of https://github.com/sywin1004/06_book.git
+
+--=============================================================
+-- 관리자 로그인 쿼리
+SELECT m.manager_seq
+  FROM MANAGER m
+;
