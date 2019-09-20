@@ -46,9 +46,85 @@ public class MainServlet extends HttpServlet {
 			update(request,response);
 		} else if ("delete".equals(action)) {
 			delete(request, response);
+		} else if ("insert".equals(action)) {
+			insert(request, response);
 		}
 	}
 	
+	/**
+	 * 도서정보 1건을 신규 입력하는 메소드
+	 * GET 요청 : 신규 입력할 수 있는 화면 제공
+	 * POST 요청 : 서버로 전달된 form 파라미터를 사용하여 DB 에 insert 쿼리 수행
+	 * @param request
+	 * @param response
+	 * @throws IOException 
+	 * @throws ServletException 
+	 */
+	private void insert(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// 1. 요청된 HTTP 메소드 추출
+		String methos = request.getMethod();
+		
+		
+		if ("GET".equals(methos)) {
+			// 2. GET 요청 처리 : 신규 입력 화면 제공
+			// mainContent 화면 결정
+			String mainContent = "/insertBook";
+			request.setAttribute("content", mainContent);
+			
+			// index 로 이동
+			String view = "/index";
+			request.getRequestDispatcher(view).forward(request, response);
+			
+		} else if ("POST".equals(methos)) {
+			// 3. POST 요청 처리 : 신규 입력 저장 처리
+			// (1) insert.jsp 에서 넘어오는 form 파라미터 추출
+			int bookSeq = Integer.valueOf(request.getParameter("bookSeq"));
+			String isbn = request.getParameter("isbn");
+			String title = request.getParameter("title");
+			String author = request.getParameter("author");
+			String content = request.getParameter("content");
+			int companyCd = Integer.valueOf(request.getParameter("companyCd"));
+			int totalPage= Integer.valueOf(request.getParameter("totalPage"));
+			int price = Integer.valueOf(request.getParameter("price"));
+			int quantity = Integer.valueOf(request.getParameter("quantity"));
+			String modId = "1";
+			
+			// (2) map 으로 작성
+			Map<String, Object> bookMap = new HashMap<>();
+			bookMap.put("bookSeq", bookSeq);
+			bookMap.put("isbn", isbn);
+			bookMap.put("title", title);
+			bookMap.put("author", author);
+			bookMap.put("content", content);
+			bookMap.put("companyCd", companyCd);
+			bookMap.put("totalPage", totalPage);
+			bookMap.put("price", price);
+			bookMap.put("quantity", quantity);
+			bookMap.put("modId", modId);	
+			// (3) dao 얻기
+			BookDaoIf dao = new BookDaoImpl();
+			// 필요한 메시지 객체 선언 : DML 작업은 ResultSet 이 발생하지 않으므로
+			// DML 작업 성공, 실패에 대한 메시지를 저장할 변수를 선언
+			String message = null;
+			// (4) dao 로 insert 수행
+			try {
+				int addCnt = dao.insert(bookMap);
+				if (addCnt > 0) {
+					// 추가 성공
+				} else {
+					// 추가 실패
+				}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			// (5) 입력 성공, 실패 수행 결과 처리하여 화면 이동
+		}
+		
+		
+		
+	}
+
 	private void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 1. 삭제할 도서 bookSeq 파라미터 추출
 		int bookSeq = Integer.valueOf(request.getParameter("bookSeq"));

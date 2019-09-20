@@ -74,6 +74,15 @@
   	<url-pattern>/messageBook</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+  	<servlet-name>bookInsertJsp</servlet-name>
+  	<jsp-file>/WEB-INF/views/book/insert.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>bookInsertJsp</servlet-name>
+  	<url-pattern>/insertBook</url-pattern>
+  </servlet-mapping>
+  
   
   
   
